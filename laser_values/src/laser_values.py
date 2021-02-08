@@ -3,6 +3,8 @@
 import rospy
 from sensor_msgs.msg import LaserScan
 import statistics
+from motor_movement import forward, obliqueLeftBackward, obliqueLeftForward, obliqueRightBackward,obliqueRightForward, left, right,stop
+
 
 minDistance = 0.20
 maxDistance = 6
@@ -67,9 +69,23 @@ def allDistance(msg):
     #listDistance = []
     dictDistance['front'] = front(msg)
     dictDistance['obliqueLeft'] = obliqueLeft(msg)
-    dictDistance['obliqueRight'] = obliqueRight(msg) 
-    #listDistance.append(dictDistance)
+    dictDistance['obliqueRight'] = obliqueRight(msg)
     print(dictDistance)
+    #return(dictDistance)
+    if dictDistance['front'] >minDistance and dictDistance['obliqueLeft']> minDistance and dictDistance['obliqueRight']> minDistance:
+            forward()
+    elif dictDistance['front'] >minDistance and dictDistance['obliqueLeft']== minDistance or dictDistance['obliqueRight']== minDistance:
+            forward()
+    elif dictDistance['front'] ==minDistance and dictDistance['obliqueLeft']== minDistance and dictDistance['obliqueRight']> minDistance:
+            obliqueRightForward()
+    elif dictDistance['front'] ==minDistance and dictDistance['obliqueLeft']> minDistance and dictDistance['obliqueRight']== minDistance:
+            obliqueLeftForward()
+    elif dictDistance['front'] ==minDistance and dictDistance['obliqueLeft']> minDistance and dictDistance['obliqueRight']== minDistance:
+            left()
+    else:
+        obliqueRightBackward()
+
+    
 
 rospy.init_node('scan_values')
 sub = rospy.Subscriber('/scan', LaserScan, allDistance)

@@ -3,7 +3,7 @@
 import pyfirmata
 import time
 
-board = pyfirmata.Arduino('/dev/ttyUSB0')
+board = pyfirmata.Arduino('/dev/ttyUSB1')
 # setup vaiable for motor DC pin
 #m: motor   l:left      r:right    f:forward     b:backward     d:digital       p:PWM pin(3, 5, 6, 9, 10)
 # incase of PWM pin, arduino accept value from 0 to 255 that represent value from 0 to 100%, 
@@ -37,7 +37,7 @@ def right():
     mlb.write(0)
     mrb.write(0)
 
-def obliqueRigthForward():
+def obliqueRightForward():
     mlf.write(1)
     mrf.write(0.5)
     mlb.write(0)
@@ -49,7 +49,7 @@ def obliqueLeftForward():
     mlb.write(0)
     mrb.write(0)
 
-def obliqueRigthBackward():
+def obliqueRightBackward():
     mlf.write(0)
     mrf.write(0)
     mlb.write(1)
@@ -61,30 +61,31 @@ def obliqueLeftBackward():
     mlb.write(0.5)
     mrb.write(1)
 
+def stop():
+    mlf.write(0)
+    mrf.write(0)
+    mlb.write(0)
+    mrb.write(0)
 
-while True:
-    move = input(' f/b/l/r  or  g/i/h/j : ')
-    if move == 'f':
-        forward()
-    elif move == 'b':
-        backward()
-    elif move == 'l':
-        left()
-    elif move == 'r':
-        right()
-    elif move == 'g':
-        obliqueRigthForward()
-    elif move == 'i':
-        obliqueLeftForward()
-    elif move == 'h':
-        obliqueRigthBackward()
-    elif move == 'j':
-        obliqueLeftBackward()
-    else:
-        print('commanf not found!')
-        mlf.write(0)
-        mrf.write(0)
-        mlb.write(0)
-        mrb.write(0)
-        break
+#while True:
+#    move = input(' f/b/l/r  or  g/i/h/j : ')
+#    if move == 'f':
+#        forward()
+#    elif move == 'b':
+#        backward()
+#    elif move == 'l':
+#        left()
+#    elif move == 'r':
+#        right()
+#    elif move == 'g':
+#        obliqueRightForward()
+#    elif move == 'i':
+#        obliqueLeftForward()
+#    elif move == 'h':
+#        obliqueRightBackward()
+#    elif move == 'j':
+#        obliqueLeftBackward()
+#    else:
+#        stop()
+#        break
 
